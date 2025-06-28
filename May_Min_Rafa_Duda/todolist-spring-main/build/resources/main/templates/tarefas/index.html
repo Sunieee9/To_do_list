@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="css/main.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Tarefas</title>
+</head>
+<body>
+<main class="container">
+    <h1>Minha Lista</h1>
+    <div class="center-content">
+        Versão inicial da aplicação de lista de tarefas para a disciplina SPODWE2
+    </div>
+
+    <!-- Links para filtrar as tarefas -->
+    <div class="center-content">
+        <!-- Links para os filtros, passando parâmetros na URL -->
+        <a th:href="@{/tarefas(filtro='todas')}" id="filter-all">
+            Todos os itens
+        </a>
+        <a th:href="@{/tarefas(filtro='concluidas')}" id="filter-done">
+            Concluídos
+        </a>
+        <a th:href="@{/tarefas(filtro='pendentes')}" id="filter-pending">
+            Pendentes
+        </a>
+    </div>
+
+    <input type="text" id="new-todo" placeholder="Adicione aqui sua nova tarefa">
+
+    <!-- Lista de Tarefas -->
+    <ul id="todo-list">
+        <li th:each="tarefa : ${tarefas}">
+            <!-- Se a tarefa NÃO estiver concluída (concluida == false) -->
+            <div th:if="${!tarefa.concluida}">
+                <span th:text="${tarefa.texto}"></span>
+                <!-- Link para concluir a tarefa -->
+                <a th:href="@{/tarefas/concluir/{texto}(texto=${tarefa.texto})}" class="btn-concluir">Concluir</a>
+            </div>
+            <!-- Se a tarefa estiver concluída (concluida == true) -->
+            <div th:unless="${!tarefa.concluida}">
+                <span th:text="${tarefa.texto}" style="text-decoration:line-through"></span>
+                <!-- Não exibe o botão de concluir para tarefas já concluídas -->
+            </div>
+        </li>
+    </ul>
+</main>
+</body>
+</html>
